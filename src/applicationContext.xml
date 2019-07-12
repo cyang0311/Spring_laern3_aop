@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                            http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="advice,DDD"></context:component-scan>
+    <!--true使用cglib动态代理
+        false使用jdk动态代理-->
+  <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+
+
+    <bean id="advice" class="advice.Advice"/>
+    <bean id="before" class="advice.BeforeAdvice"></bean>
+    <bean id="after" class="advice.AfterAdvice"></bean>
+    <!--<bean id="error" class="advice.ErrorAdvice"></bean>-->
+    <!--<bean id="error2" class="advice.ErrorAdvice2"></bean>-->
+
+    <!--<bean id="arrou nd" class="advice.ArroundAdvice"></bean>-->
+
+    <!--aspect方式配置异常通知-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="myPoint" expression="execution(* DDD.Demo.*(..))"/>-->
+        <!--<aop:advisor advice-ref="before" pointcut-ref="myPoint"/>-->
+        <!--<aop:advisor advice-ref="after" pointcut-ref="myPoint"/>-->
+        <!--<aop:aspect ref="error">-->
+            <!--<aop:after-throwing method="myError" pointcut-ref="myPoint" throwing="e"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+
+
+
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="myPoint3" expression="execution(* DDD.Demo.demo5(..))"/>-->
+        <!--<aop:advisor advice-ref="arround" pointcut-ref="myPoint3"/>-->
+    <!--</aop:config>-->
+
+    <!--&lt;!&ndash;schema-base方式配置异常通知&ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="myPoint2" expression="execution(* DDD.Demo.demo4())"/>-->
+        <!--<aop:advisor advice-ref="error2" pointcut-ref="myPoint2"/>-->
+    <!--</aop:config>-->
+
+
+    <bean id="demo" class="DDD.Demo"></bean>
+    <bean id="demo2" class="DDD.Demo2"/>
+
+    <!--<bean id="demo" class="DDD.Demo"></bean>-->
+
+    <aop:config>
+        <aop:pointcut id="point" expression="execution(* DDD.Demo.*(..))"/>
+        <aop:advisor advice-ref="before" pointcut-ref="point"/>
+        <aop:advisor advice-ref="after" pointcut-ref="point"/>
+    </aop:config>
+
+    <!--<aop:config>-->
+        <!--<aop:aspect ref="advice">-->
+            <!--<aop:pointcut id="point2" expression="execution(* DDD.Demo.demo3(String,int)) and args(name,id)"/>-->
+            <!--<aop:before method="before" pointcut-ref="point2" arg-names="name,id"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+</beans>
